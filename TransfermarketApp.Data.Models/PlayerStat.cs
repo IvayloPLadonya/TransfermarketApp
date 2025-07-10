@@ -10,6 +10,7 @@ namespace TransfermarketApp.Data.Models
 
 	public class PlayerStat
 	{
+		[Key]
 		public int StatId { get; set; }
 
 		public int PlayerId { get; set; }

@@ -22,6 +22,9 @@
 		public League League { get; set; } = null!;
 
 		public ICollection<Player> Players { get; set; } = new List<Player>();
+		public ICollection<Transfer> IncomingTransfers { get; set; } = new List<Transfer>();
+		public ICollection<Transfer> OutgoingTransfers { get; set; } = new List<Transfer>();
+
 	}
 
 }
