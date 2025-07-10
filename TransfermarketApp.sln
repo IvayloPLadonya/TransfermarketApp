@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp", "TransfermarketApp\TransfermarketApp.csproj", "{14DDE802-017F-43ED-8413-0ED9F18C0AE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5B73DDB5-DDC0-4FBF-B60B-170C4A6D5EEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C49EF008-6094-475C-A212-7518CF78C1A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{0AD47191-C7AA-4CEA-8C06-AAC87A22B1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.Data", "TransfermarketApp.Data\TransfermarketApp.Data.csproj", "{AB15FAD6-ADC0-4233-AF4A-263415073086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.Data.Models", "TransfermarketApp.Data.Models\TransfermarketApp.Data.Models.csproj", "{17BD7643-28ED-4713-A348-27F3E7CAC785}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14DDE802-017F-43ED-8413-0ED9F18C0AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DDE802-017F-43ED-8413-0ED9F18C0AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DDE802-017F-43ED-8413-0ED9F18C0AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DDE802-017F-43ED-8413-0ED9F18C0AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB15FAD6-ADC0-4233-AF4A-263415073086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB15FAD6-ADC0-4233-AF4A-263415073086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB15FAD6-ADC0-4233-AF4A-263415073086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB15FAD6-ADC0-4233-AF4A-263415073086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17BD7643-28ED-4713-A348-27F3E7CAC785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17BD7643-28ED-4713-A348-27F3E7CAC785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17BD7643-28ED-4713-A348-27F3E7CAC785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17BD7643-28ED-4713-A348-27F3E7CAC785}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14DDE802-017F-43ED-8413-0ED9F18C0AE9} = {0AD47191-C7AA-4CEA-8C06-AAC87A22B1B3}
+		{AB15FAD6-ADC0-4233-AF4A-263415073086} = {5B73DDB5-DDC0-4FBF-B60B-170C4A6D5EEC}
+		{17BD7643-28ED-4713-A348-27F3E7CAC785} = {5B73DDB5-DDC0-4FBF-B60B-170C4A6D5EEC}
+	EndGlobalSection
+EndGlobal
