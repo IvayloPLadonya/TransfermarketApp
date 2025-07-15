@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TransfermarketApp.Data;
+
 namespace TransfermarketApp
 {
 	public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 			builder.Services.AddDbContext<TransfermarketAppDbContext>(options =>
@@ -46,6 +47,12 @@ namespace TransfermarketApp
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+            using (var scope = app.Services.CreateScope())
+            {
+                 var services = scope.ServiceProvider;
+				await DataSeeder.SeedRolesAndAdminAsync(services);
+            }
+
             app.Run();
         }
     }
