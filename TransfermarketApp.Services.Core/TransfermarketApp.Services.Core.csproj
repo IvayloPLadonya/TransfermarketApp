@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TransfermarketApp.Data.Models\TransfermarketApp.Data.Models.csproj" />
+    <ProjectReference Include="..\TransfermarketApp.Data\TransfermarketApp.Data.csproj" />
+    <ProjectReference Include="..\TransfermarketApp.ViewModels\TransfermarketApp.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

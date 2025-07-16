@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TransfermarketApp.Data.Models\TransfermarketApp.Data.Models.csproj" />
     <ProjectReference Include="..\TransfermarketApp.Data\TransfermarketApp.Data.csproj" />
+    <ProjectReference Include="..\TransfermarketApp.Services.Core\TransfermarketApp.Services.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp", "TransfermarketApp\TransfermarketApp.csproj", "{14DDE802-017F-43ED-8413-0ED9F18C0AE9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{43401969-1C4A-4137-9572-7AC1BA73FE6B} = {43401969-1C4A-4137-9572-7AC1BA73FE6B}
+		{5E1E2C12-96E8-47F5-9292-6899A49FF324} = {5E1E2C12-96E8-47F5-9292-6899A49FF324}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5B73DDB5-DDC0-4FBF-B60B-170C4A6D5EEC}"
 EndProject
@@ -17,8 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.Data.Mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.Services.Core", "TransfermarketApp.Services.Core\TransfermarketApp.Services.Core.csproj", "{43401969-1C4A-4137-9572-7AC1BA73FE6B}"
 	ProjectSection(ProjectDependencies) = postProject
-		{14DDE802-017F-43ED-8413-0ED9F18C0AE9} = {14DDE802-017F-43ED-8413-0ED9F18C0AE9}
 		{17BD7643-28ED-4713-A348-27F3E7CAC785} = {17BD7643-28ED-4713-A348-27F3E7CAC785}
+		{5E1E2C12-96E8-47F5-9292-6899A49FF324} = {5E1E2C12-96E8-47F5-9292-6899A49FF324}
 		{AB15FAD6-ADC0-4233-AF4A-263415073086} = {AB15FAD6-ADC0-4233-AF4A-263415073086}
 	EndProjectSection
 EndProject
