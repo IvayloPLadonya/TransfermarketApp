@@ -50,20 +50,48 @@ namespace TransfermarketApp.Services.Core
 
 		public async Task<PlayerDetailsViewModel?> GetPlayerByIdAsync(int id)
 		{
-			return await _dbContext.Players
-				.Where(p => p.PlayerId == id)
-				.Include(p => p.CurrentClub)
-				.Select(p => new PlayerDetailsViewModel
-				{
-					PlayerId = p.PlayerId,
-					Name = p.Name,
-					Position = p.Position.ToString(),
-					Age = p.Age,
-					MarketValue = p.MarketValue,
-					ImageUrl = p.ImageUrl,
-					CurrentClubName = p.CurrentClub.Name
-				})
-				.FirstOrDefaultAsync();
+			var player = await _dbContext.Players
+		.Include(p => p.CurrentClub)
+		.Include(p => p.PlayerStats)
+		.Include(p => p.Transfers)
+			.ThenInclude(t => t.FromClub)
+		.Include(p => p.Transfers)
+			.ThenInclude(t => t.ToClub)
+		.FirstOrDefaultAsync(p => p.PlayerId == id);
+
+			if (player == null)
+			{
+				return null;
+			}
+
+			return new PlayerDetailsViewModel
+			{
+				PlayerId = player.PlayerId,
+				Name = player.Name,
+				Position = player.Position.ToString(),
+				Age = player.Age,
+				MarketValue = player.MarketValue,
+				ImageUrl = player.ImageUrl,
+				CurrentClubName = player.CurrentClub.Name,
+
+				Stats = player.PlayerStats
+					.Select(s => new PlayerStatViewModel
+					{
+						Season = s.Season,
+						Appearances = s.Appearances,
+						Goals = s.Goals,
+						Assists = s.Assists
+					}).ToList(),
+
+				Transfers = player.Transfers
+					.Select(t => new TransferViewModel
+					{
+						FromClubName = t.FromClub.Name,
+						ToClubName = t.ToClub.Name,
+						TransferFee = t.TransferFee,
+						TransferDate = t.TransferDate
+					}).ToList()
+			};
 		}
 
 		public async Task CreatePlayerAsync(CreatePlayerViewModel model)
