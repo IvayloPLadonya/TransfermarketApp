@@ -43,9 +43,23 @@ namespace TransfermarketApp.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult Create()
+		public async Task<IActionResult> Create()
 		{
-			return View();
+			var clubs = await _dbContext.Clubs
+				.OrderBy(c => c.Name)
+				.Select(c => new ClubDropdownViewModel
+				{
+					Id = c.ClubId,
+					Name = c.Name
+				})
+				.ToListAsync();
+
+			var model = new CreatePlayerViewModel
+			{
+				Clubs = clubs
+			};
+
+			return View(model);
 		}
 
 		[HttpPost]
@@ -55,18 +69,22 @@ namespace TransfermarketApp.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
+				model.Clubs = await _dbContext.Clubs
+					.OrderBy(c => c.Name)
+					.Select(c => new ClubDropdownViewModel
+					{
+						Id = c.ClubId,
+						Name = c.Name
+					})
+					.ToListAsync();
+
 				return View(model);
 			}
-			var clubs = await _dbContext.Clubs
-	   .OrderBy(c => c.Name)
-	   .Select(c => new { c.ClubId, c.Name })
-	   .ToListAsync();
-
-			ViewBag.Clubs = new SelectList(clubs, "Id", "Name");
 
 			await _playerService.CreatePlayerAsync(model);
 			return RedirectToAction(nameof(Index));
 		}
+
 
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(int id)
@@ -82,18 +100,20 @@ namespace TransfermarketApp.Controllers
 				Age = player.Age,
 				MarketValue = player.MarketValue,
 				ImageUrl = player.ImageUrl,
-				CurrentClubId = player.CurrentClubId
+				CurrentClubId = player.CurrentClubId,
+				Clubs = await _dbContext.Clubs
+					.OrderBy(c => c.Name)
+					.Select(c => new ClubDropdownViewModel
+					{
+						Id = c.ClubId,
+						Name = c.Name
+					})
+					.ToListAsync()
 			};
-
-			var clubs = await _dbContext.Clubs
-				.OrderBy(c => c.Name)
-				.Select(c => new { c.ClubId, c.Name })
-				.ToListAsync();
-
-			ViewBag.Clubs = new SelectList(clubs, "Id", "Name", model.CurrentClubId);
 
 			return View(model);
 		}
+
 
 
 		[HttpPost]
@@ -103,12 +123,22 @@ namespace TransfermarketApp.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
+				model.Clubs = await _dbContext.Clubs
+					.OrderBy(c => c.Name)
+					.Select(c => new ClubDropdownViewModel
+					{
+						Id = c.ClubId,
+						Name = c.Name
+					})
+					.ToListAsync();
+
 				return View(model);
 			}
 
 			await _playerService.UpdatePlayerAsync(id, model);
 			return RedirectToAction(nameof(Index));
 		}
+
 
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete(int id)

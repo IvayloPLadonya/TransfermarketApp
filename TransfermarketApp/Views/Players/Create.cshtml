@@ -45,13 +45,21 @@
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="CurrentClubId" class="form-label">Current Club</label>
-                <select asp-for="CurrentClubId" asp-items="ViewBag.Clubs" class="form-select">
-                    <option value="">-- Select Club --</option>
-                </select>
-                <span asp-validation-for="CurrentClubId" class="text-danger"></span>
-            </div>
+           <div class="mb-3">
+    <label asp-for="CurrentClubId" class="form-label">Current Club</label>
+    <select name="CurrentClubId" id="CurrentClubId" class="form-select">
+        <option value="">-- Select Club --</option>
+        @foreach (var club in Model.Clubs)
+        {
+                        <option value="@club.Id" selected="@(club.Id == Model.CurrentClubId ? "selected" : null)">
+                            @club.Name
+                        </option>
+
+        }
+    </select>
+    <span asp-validation-for="CurrentClubId" class="text-danger"></span>
+</div>
+
 
 
             <button type="submit" class="btn btn-custom w-100">Create Player</button>

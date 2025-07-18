@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using TransfermarketApp.Data.Models.Enums;
 
 namespace TransfermarketApp.ViewModels.Players
@@ -26,6 +25,6 @@ namespace TransfermarketApp.ViewModels.Players
 		[Url]
 		public string? ImageUrl { get; set; }
 		public int CurrentClubId { get; set; }
-		public List<SelectListItem> Clubs { get; set; } = new List<SelectListItem>();
+		public List<ClubDropdownViewModel> Clubs { get; set; } = new();
 	}
 }
