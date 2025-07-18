@@ -14,7 +14,7 @@ namespace TransfermarketApp.ViewModels.Players
 		public int Age { get; set; }
 		public decimal MarketValue { get; set; }
 		public string? ImageUrl { get; set; }
-		public string CurrentClubName { get; set; } = null!;
+		public int CurrentClubId { get; set; }
 		public List<PlayerStatViewModel> Stats { get; set; } = new();
 		public List<TransferViewModel> Transfers { get; set; } = new();
 	}

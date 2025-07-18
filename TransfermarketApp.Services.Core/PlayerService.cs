@@ -72,7 +72,7 @@ namespace TransfermarketApp.Services.Core
 				Age = player.Age,
 				MarketValue = player.MarketValue,
 				ImageUrl = player.ImageUrl,
-				CurrentClubName = player.CurrentClub.Name,
+				CurrentClubId = player.CurrentClub.ClubId,
 
 				Stats = player.PlayerStats
 					.Select(s => new PlayerStatViewModel

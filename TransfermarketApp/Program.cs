@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TransfermarketApp.Data;
+using TransfermarketApp.Services.Core.Contracts;
+using TransfermarketApp.Services.Core;
 
 namespace TransfermarketApp
 {
@@ -26,7 +28,9 @@ namespace TransfermarketApp
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-            var app = builder.Build();
+			builder.Services.AddScoped<IPlayerService, PlayerService>();
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,0 +1,63 @@
+﻿@model TransfermarketApp.ViewModels.Players.EditPlayerViewModel
+
+@{
+    ViewData["Title"] = "Edit Player";
+}
+
+<h1>Edit Player</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="PlayerId" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Position" class="form-label">Position</label>
+        <select asp-for="Position" class="form-select">
+            @foreach (var position in Enum.GetValues(typeof(TransfermarketApp.Data.Models.Enums.Position)))
+            {
+                <option value="@position" selected="@(position.Equals(Model.Position) ? "selected" : null)">
+                    @position
+                </option>
+            }
+        </select>
+        <span asp-validation-for="Position" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label">Age</label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MarketValue" class="form-label">Market Value</label>
+        <input asp-for="MarketValue" class="form-control" />
+        <span asp-validation-for="MarketValue" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageUrl" class="form-label">Image URL</label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CurrentClubId" class="form-label">Current Club</label>
+        <select asp-for="CurrentClubId" asp-items="ViewBag.Clubs" class="form-select">
+            <option value="">-- Select Club --</option>
+        </select>
+        <span asp-validation-for="CurrentClubId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
