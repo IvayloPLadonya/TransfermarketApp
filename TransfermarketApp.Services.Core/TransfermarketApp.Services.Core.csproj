@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TransfermarketApp.Data.Models\TransfermarketApp.Data.Models.csproj" />
     <ProjectReference Include="..\TransfermarketApp.Data\TransfermarketApp.Data.csproj" />
     <ProjectReference Include="..\TransfermarketApp.ViewModels\TransfermarketApp.ViewModels.csproj" />
