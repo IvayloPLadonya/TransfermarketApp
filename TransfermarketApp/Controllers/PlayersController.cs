@@ -45,20 +45,10 @@ namespace TransfermarketApp.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create()
 		{
-			var clubs = await _dbContext.Clubs
-				.OrderBy(c => c.Name)
-				.Select(c => new ClubDropdownViewModel
-				{
-					Id = c.ClubId,
-					Name = c.Name
-				})
-				.ToListAsync();
-
 			var model = new CreatePlayerViewModel
 			{
-				Clubs = clubs
+				Clubs = await _playerService.GetClubsAsync()
 			};
-
 			return View(model);
 		}
 
@@ -69,15 +59,7 @@ namespace TransfermarketApp.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Clubs = await _dbContext.Clubs
-					.OrderBy(c => c.Name)
-					.Select(c => new ClubDropdownViewModel
-					{
-						Id = c.ClubId,
-						Name = c.Name
-					})
-					.ToListAsync();
-
+				model.Clubs = await _playerService.GetClubsAsync();
 				return View(model);
 			}
 
@@ -86,35 +68,16 @@ namespace TransfermarketApp.Controllers
 		}
 
 
+
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(int id)
 		{
-			var player = await _playerService.GetPlayerByIdAsync(id);
-			if (player == null) return NotFound();
+			var model = await _playerService.GetPlayerForEditAsync(id);
+			if (model == null) return NotFound();
 
-			var model = new EditPlayerViewModel
-			{
-				PlayerId = player.PlayerId,
-				Name = player.Name,
-				Position = Enum.Parse<Position>(player.Position),
-				Age = player.Age,
-				MarketValue = player.MarketValue,
-				ImageUrl = player.ImageUrl,
-				CurrentClubId = player.CurrentClubId,
-				Clubs = await _dbContext.Clubs
-					.OrderBy(c => c.Name)
-					.Select(c => new ClubDropdownViewModel
-					{
-						Id = c.ClubId,
-						Name = c.Name
-					})
-					.ToListAsync()
-			};
-
+			model.Clubs = await _playerService.GetClubsAsync();
 			return View(model);
 		}
-
-
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
@@ -123,21 +86,14 @@ namespace TransfermarketApp.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Clubs = await _dbContext.Clubs
-					.OrderBy(c => c.Name)
-					.Select(c => new ClubDropdownViewModel
-					{
-						Id = c.ClubId,
-						Name = c.Name
-					})
-					.ToListAsync();
-
+				model.Clubs = await _playerService.GetClubsAsync();
 				return View(model);
 			}
 
 			await _playerService.UpdatePlayerAsync(id, model);
 			return RedirectToAction(nameof(Index));
 		}
+
 
 
 		[Authorize(Roles = "Admin")]

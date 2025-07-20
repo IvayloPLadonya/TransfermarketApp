@@ -110,6 +110,27 @@ namespace TransfermarketApp.Services.Core
 			await _dbContext.SaveChangesAsync();
 		}
 
+		public async Task<EditPlayerViewModel?> GetPlayerForEditAsync(int id)
+		{
+			var player = await _dbContext.Players
+				.Include(p => p.CurrentClub)
+				.FirstOrDefaultAsync(p => p.PlayerId == id);
+
+			if (player == null) return null;
+
+			return new EditPlayerViewModel
+			{
+				PlayerId = player.PlayerId,
+				Name = player.Name,
+				Position = player.Position,
+				Age = player.Age,
+				MarketValue = player.MarketValue,
+				ImageUrl = player.ImageUrl,
+				CurrentClubId = player.CurrentClubId
+			};
+		}
+
+
 		public async Task UpdatePlayerAsync(int id, EditPlayerViewModel model)
 		{
 			var player = await _dbContext.Players.FindAsync(id);
@@ -144,5 +165,18 @@ namespace TransfermarketApp.Services.Core
 			}
 			return await query.CountAsync();
 		}
+		public async Task<List<ClubDropdownViewModel>> GetClubsAsync()
+		{
+			return await _dbContext.Clubs
+				.OrderBy(c => c.Name)
+				.Select(c => new ClubDropdownViewModel
+				{
+					Id = c.ClubId,
+					Name = c.Name
+				})
+				.ToListAsync();
+		}
+
+
 	}
 }

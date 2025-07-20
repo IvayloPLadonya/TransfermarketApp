@@ -13,8 +13,10 @@ namespace TransfermarketApp.Services.Core.Contracts
 		Task<IEnumerable<PlayerListViewModel>> GetAllPlayersAsync(string? searchTerm = null, int page = 1, int pageSize = 10);
 		Task<PlayerDetailsViewModel?> GetPlayerByIdAsync(int id);
 		Task CreatePlayerAsync(CreatePlayerViewModel player);
+		Task<EditPlayerViewModel?> GetPlayerForEditAsync(int id);
 		Task UpdatePlayerAsync(int id,EditPlayerViewModel player);
 		Task DeletePlayerAsync(int id);
 		Task<int> GetPlayersCountAsync(string? searchTerm = null);
+		Task<List<ClubDropdownViewModel>> GetClubsAsync();
 	}
 }
