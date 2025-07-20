@@ -67,3 +67,34 @@ footer {
         background-color: rgba(0, 0, 0, 0.85);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
+.club-logo-wrapper {
+    flex-shrink: 0;
+}
+
+.club-logo {
+    max-width: 200px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+.card {
+    border-radius: 8px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table thead th {
+    text-align: center;
+}
+
+.table tbody td {
+    text-align: center;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+

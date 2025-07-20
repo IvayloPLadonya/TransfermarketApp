@@ -15,7 +15,11 @@ namespace TransfermarketApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+			if (User.Identity?.IsAuthenticated == true)
+			{
+				return RedirectToAction("Index", "Players");
+			}
+			return View();
         }
 
         public IActionResult Privacy()

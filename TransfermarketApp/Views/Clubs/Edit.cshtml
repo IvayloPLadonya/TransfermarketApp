@@ -1,0 +1,60 @@
+﻿@model TransfermarketApp.ViewModels.Clubs.EditClubViewModel
+
+@{
+    ViewData["Title"] = "Edit Club";
+}
+
+<section class="login-hero">
+    <div class="login-box">
+        <h1 class="mb-4">Edit Club</h1>
+
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="LeagueId" />
+            <input type="hidden" asp-for="ClubId" />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FoundedYear" class="form-label"></label>
+                <input asp-for="FoundedYear" type="number" class="form-control" />
+                <span asp-validation-for="FoundedYear" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Budget" class="form-label"></label>
+                <input asp-for="Budget" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="Budget" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ImageUrl" class="form-label"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LeagueId" class="form-label">League</label>
+                <select asp-for="LeagueId" class="form-select">
+                    <option value="">-- Select League --</option>
+                    @foreach (var league in Model.Leagues)
+                    {
+                        <option value="@league.Id">@league.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="LeagueId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100">Save Changes</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

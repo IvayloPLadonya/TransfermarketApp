@@ -1,0 +1,100 @@
+﻿@model TransfermarketApp.ViewModels.Clubs.ClubDetailsViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Name} Details";
+}
+
+<section class="container mt-5">
+    <div class="club-header d-flex align-items-center mb-4">
+        <div class="club-logo-wrapper">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="club-logo club-logo-large" />
+            }
+        </div>
+        <div class="ms-4">
+            <h1>@Model.Name</h1>
+            <p><strong>Founded:</strong> @Model.FoundedYear</p>
+            <p><strong>Budget:</strong> $@Model.Budget</p>
+            <p><strong>League:</strong> @Model.LeagueName</p>
+        </div>
+    </div>
+
+
+    <div class="mb-4">
+        <h2 class="mb-3">Players</h2>
+        <table class="table table-striped table-hover table-bordered table-light">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Age</th>
+                    <th>Market Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var player in Model.Players)
+                {
+                    <tr>
+                        <td>@player.Name</td>
+                        <td>@player.Position</td>
+                        <td>@player.Age</td>
+                        <td>$@player.MarketValue</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="mb-4">
+        <h2 class="mb-3">Incoming Transfers</h2>
+        <table class="table table-striped table-hover table-bordered table-light">
+            <thead class="table-dark">
+                <tr>
+                    <th>Player</th>
+                    <th>From Club</th>
+                    <th>Fee</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transfer in Model.IncomingTransfers)
+                {
+                    <tr>
+                        <td>@transfer.PlayerName</td>
+                        <td>@transfer.FromClubName</td>
+                        <td>$@transfer.Fee</td>
+                        <td>@transfer.TransferDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mb-4">
+        <h2 class="mb-3">Outgoing Transfers</h2>
+        <table class="table table-striped table-hover table-bordered table-light">
+            <thead class="table-dark">
+                <tr>
+                    <th>Player</th>
+                    <th>To Club</th>
+                    <th>Fee</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transfer in Model.OutgoingTransfers)
+                {
+                    <tr>
+                        <td>@transfer.PlayerName</td>
+                        <td>@transfer.ToClubName</td>
+                        <td>$@transfer.Fee</td>
+                        <td>@transfer.TransferDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+

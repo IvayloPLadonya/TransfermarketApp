@@ -29,6 +29,7 @@ namespace TransfermarketApp
 			builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 			builder.Services.AddScoped<IPlayerService, PlayerService>();
+			builder.Services.AddScoped<IClubService, ClubService>();
 
 			var app = builder.Build();
 
