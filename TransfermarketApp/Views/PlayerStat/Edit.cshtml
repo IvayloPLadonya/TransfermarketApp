@@ -1,0 +1,60 @@
+﻿@model TransfermarketApp.ViewModels.PlayerStats.EditPlayerStatViewModel
+
+@{
+    ViewData["Title"] = "Edit Player Stat";
+}
+
+<h1>Edit Player Stat</h1>
+
+<div class="container mt-4" style="max-width: 600px;">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="StatId" />
+        <input type="hidden" asp-for="PlayerId" />
+
+        <div class="mb-3">
+            <label asp-for="Season" class="form-label">Season</label>
+            <input asp-for="Season" class="form-control" />
+            <span asp-validation-for="Season" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Appearances" class="form-label">Appearances</label>
+            <input asp-for="Appearances" class="form-control" type="number" />
+            <span asp-validation-for="Appearances" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Goals" class="form-label">Goals</label>
+            <input asp-for="Goals" class="form-control" type="number" />
+            <span asp-validation-for="Goals" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Assists" class="form-label">Assists</label>
+            <input asp-for="Assists" class="form-control" type="number" />
+            <span asp-validation-for="Assists" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ClubId" class="form-label">Club</label>
+            <select asp-for="ClubId" class="form-select">
+                <option value="">-- Select Club --</option>
+                @foreach (var club in Model.Clubs)
+                {
+                    <option value="@club.Id" selected="@(club.Id == Model.ClubId ? "selected" : null)">
+                        @club.Name
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="ClubId" class="text-danger"></span>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-controller="Players" asp-action="Details" asp-route-id="@Model.PlayerId" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -27,6 +27,10 @@ namespace TransfermarketApp.Data.Models
 
 		[Range(0, 100)]
 		public int Assists { get; set; }
+		[Required]
+		public int ClubId { get; set; }
+		public Club Club { get; set; } = null!;
+
 	}
 
 }

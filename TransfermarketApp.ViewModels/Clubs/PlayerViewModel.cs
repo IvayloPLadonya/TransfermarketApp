@@ -13,5 +13,6 @@ namespace TransfermarketApp.ViewModels.Clubs
 		public string Position { get; set; } = null!;
 		public int Age { get; set; }
 		public decimal MarketValue { get; set; }
+		public string? ImageUrl { get; set; }
 	}
 }

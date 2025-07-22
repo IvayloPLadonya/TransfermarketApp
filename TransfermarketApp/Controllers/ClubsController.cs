@@ -50,7 +50,6 @@ namespace TransfermarketApp.Controllers
 			return View(club);
 		}
 
-		[Authorize(Roles = "Admin")]
 		[HttpGet]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create()

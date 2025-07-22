@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,22 @@ namespace TransfermarketApp.Data
 				.WithMany(p => p.PlayerStats)
 				.HasForeignKey(ps => ps.PlayerId)
 				.OnDelete(DeleteBehavior.Cascade);
+			
+			modelBuilder.Entity<IdentityUserLogin<string>>()
+				.Property(l => l.LoginProvider)
+				.HasMaxLength(450);
 
+			modelBuilder.Entity<IdentityUserLogin<string>>()
+				.Property(l => l.ProviderKey)
+				.HasMaxLength(450);
+
+			modelBuilder.Entity<IdentityUserToken<string>>()
+				.Property(t => t.LoginProvider)
+				.HasMaxLength(450);
+
+			modelBuilder.Entity<IdentityUserToken<string>>()
+				.Property(t => t.Name)
+				.HasMaxLength(450);
 		}
 	}
 }

@@ -77,7 +77,9 @@ namespace TransfermarketApp.Services.Core
 				Stats = player.PlayerStats
 					.Select(s => new PlayerStatViewModel
 					{
+						StatId = s.StatId,
 						Season = s.Season,
+						Club=s.Club.Name,
 						Appearances = s.Appearances,
 						Goals = s.Goals,
 						Assists = s.Assists

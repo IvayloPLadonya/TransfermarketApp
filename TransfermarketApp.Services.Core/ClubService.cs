@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using TransfermarketApp.Data;
 using TransfermarketApp.Data.Models;
 using TransfermarketApp.Services.Core.Contracts;
@@ -65,7 +66,8 @@ namespace TransfermarketApp.Services.Core
 					Name = p.Name,
 					Position = p.Position.ToString(),
 					Age = p.Age,
-					MarketValue = p.MarketValue
+					MarketValue = p.MarketValue,
+					ImageUrl = p.ImageUrl
 				}).ToList(),
 
 				IncomingTransfers = club.IncomingTransfers.Select(t => new TransferViewModel

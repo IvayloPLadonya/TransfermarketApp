@@ -15,7 +15,7 @@
         <div class="ms-4">
             <h1>@Model.Name</h1>
             <p><strong>Founded:</strong> @Model.FoundedYear</p>
-            <p><strong>Budget:</strong> $@Model.Budget</p>
+            <p><strong>Budget:</strong> $@Model.Budget.ToString("N0")</p>
             <p><strong>League:</strong> @Model.LeagueName</p>
         </div>
     </div>
@@ -23,28 +23,46 @@
 
     <div class="mb-4">
         <h2 class="mb-3">Players</h2>
-        <table class="table table-striped table-hover table-bordered table-light">
-            <thead class="table-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Age</th>
-                    <th>Market Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var player in Model.Players)
-                {
-                    <tr>
-                        <td>@player.Name</td>
-                        <td>@player.Position</td>
-                        <td>@player.Age</td>
-                        <td>$@player.MarketValue</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+        <div class="list-group">
+            @foreach (var player in Model.Players)
+            {
+                <div class="list-group-item d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        @if (!string.IsNullOrEmpty(player.ImageUrl))
+                        {
+                            <img src="@player.ImageUrl"
+                                 alt="@player.Name"
+                                 class="player-photo me-3" />
+                        }
+                        else
+                        {
+                            <img src="/images/placeholder-player.png"
+                                 alt="No Image"
+                                 class="player-photo me-3" />
+                        }
+
+                        <div>
+                            <h5 class="mb-1">@player.Name</h5>
+                            <p class="mb-0">
+                                <strong>Position:</strong> @player.Position |
+                                <strong>Age:</strong> @player.Age |
+                                <strong>Market Value:</strong> $@player.MarketValue.ToString("N0")
+                            </p>
+                        </div>
+                    </div>
+
+                    <a asp-controller="Players"
+                       asp-action="Details"
+                       asp-route-id="@player.Id"
+                       class="btn btn-primary btn-sm">
+                        Details
+                    </a>
+                </div>
+            }
+        </div>
     </div>
+
 
 
     <div class="mb-4">
