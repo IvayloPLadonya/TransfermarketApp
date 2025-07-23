@@ -1,0 +1,70 @@
+﻿@model TransfermarketApp.ViewModels.Transfers.CreateTransferViewModel
+
+@{
+    ViewData["Title"] = "Create Transfer";
+}
+
+<section class="login-hero">
+    <div class="login-box">
+        <h1 class="mb-4">Add New Transfer</h1>
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label asp-for="PlayerId" class="form-label">Player</label>
+                <select asp-for="PlayerId" class="form-select">
+                    <option value="">-- Select Player --</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="PlayerId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FromClubId" class="form-label">From Club</label>
+                <select asp-for="FromClubId" class="form-select">
+                    <option value="">-- Select Club --</option>
+                    @foreach (var club in Model.Clubs)
+                    {
+                        <option value="@club.Id">@club.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="FromClubId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ToClubId" class="form-label">To Club</label>
+                <select asp-for="ToClubId" class="form-select">
+                    <option value="">-- Select Club --</option>
+                    @foreach (var club in Model.Clubs)
+                    {
+                        <option value="@club.Id">@club.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ToClubId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TransferFee" class="form-label">Transfer Fee</label>
+                <input asp-for="TransferFee" class="form-control" type="number" step="1000000" />
+                <span asp-validation-for="TransferFee" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TransferDate" class="form-label">Transfer Date</label>
+                <input asp-for="TransferDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="TransferDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100">Create Transfer</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

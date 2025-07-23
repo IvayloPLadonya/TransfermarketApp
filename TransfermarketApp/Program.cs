@@ -31,6 +31,7 @@ namespace TransfermarketApp
 			builder.Services.AddScoped<IPlayerService, PlayerService>();
 			builder.Services.AddScoped<IClubService, ClubService>();
 			builder.Services.AddScoped<IPlayerStatService, PlayerStatService>();
+			builder.Services.AddScoped<ITransferService, TransferService>();
 
 			var app = builder.Build();
 

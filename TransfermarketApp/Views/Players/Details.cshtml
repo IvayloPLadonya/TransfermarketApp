@@ -5,7 +5,7 @@
 }
 
 <section class="container mt-5">
-    <div class="d-flex align-items-center mb-4">
+    <div class="d-flex align-items-start mb-4">
         @if (!string.IsNullOrEmpty(Model.ImageUrl))
         {
             <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" style="max-width: 150px; height: auto; margin-right: 20px;" />
@@ -16,8 +16,22 @@
             <p><strong>Position:</strong> @Model.Position</p>
             <p><strong>Age:</strong> @Model.Age</p>
             <p><strong>Market Value:</strong> €@Model.MarketValue.ToString("N0")</p>
+
+            @if (!string.IsNullOrEmpty(Model.CurrentClubName))
+            {
+                <div class="d-flex align-items-center mt-3">
+                    @if (!string.IsNullOrEmpty(Model.CurrentClubLogoUrl))
+                    {
+                        <img src="@Model.CurrentClubLogoUrl" alt="@Model.CurrentClubName"
+                             style="height: 40px; margin-right: 10px;" />
+                    }
+                    <span class="fw-bold fs-5">@Model.CurrentClubName</span>
+                </div>
+            }
         </div>
     </div>
+
+
 
     <hr />
 
@@ -46,7 +60,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var stat in Model.Stats)
+                    @foreach (var stat in Model.Stats.OrderByDescending(s => s.Season))
                     {
                         <tr>
                             <td>@stat.Season</td>

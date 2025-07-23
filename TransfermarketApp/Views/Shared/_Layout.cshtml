@@ -33,6 +33,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Clubs" asp-action="Index">Clubs</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Transfers" asp-action="Index">Transfers</a>
+                        </li>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">

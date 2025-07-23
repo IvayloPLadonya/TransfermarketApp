@@ -1,0 +1,71 @@
+﻿@model TransfermarketApp.ViewModels.Transfers.EditTransferViewModel
+
+@{
+    ViewData["Title"] = "Edit Transfer";
+}
+
+<section class="login-hero">
+    <div class="login-box">
+        <h1 class="mb-4">Edit Transfer</h1>
+
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="TransferId" />
+
+            <div class="mb-3">
+                <label asp-for="PlayerId" class="form-label">Player</label>
+                <select asp-for="PlayerId" class="form-select">
+                    <option value="">-- Select Player --</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id" selected="@(player.Id == Model.PlayerId ? "selected" : null)">@player.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="PlayerId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FromClubId" class="form-label">From Club</label>
+                <select asp-for="FromClubId" class="form-select">
+                    <option value="">-- Select Club --</option>
+                    @foreach (var club in Model.Clubs)
+                    {
+                        <option value="@club.Id" selected="@(club.Id == Model.FromClubId ? "selected" : null)">@club.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="FromClubId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ToClubId" class="form-label">To Club</label>
+                <select asp-for="ToClubId" class="form-select">
+                    <option value="">-- Select Club --</option>
+                    @foreach (var club in Model.Clubs)
+                    {
+                        <option value="@club.Id" selected="@(club.Id == Model.ToClubId ? "selected" : null)">@club.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ToClubId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TransferFee" class="form-label">Transfer Fee</label>
+                <input asp-for="TransferFee" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="TransferFee" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TransferDate" class="form-label">Transfer Date</label>
+                <input asp-for="TransferDate" class="form-control" type="date" />
+                <span asp-validation-for="TransferDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100">Update Transfer</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

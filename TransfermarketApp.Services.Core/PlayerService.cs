@@ -53,6 +53,7 @@ namespace TransfermarketApp.Services.Core
 			var player = await _dbContext.Players
 		.Include(p => p.CurrentClub)
 		.Include(p => p.PlayerStats)
+			.ThenInclude(s => s.Club)
 		.Include(p => p.Transfers)
 			.ThenInclude(t => t.FromClub)
 		.Include(p => p.Transfers)
@@ -73,6 +74,8 @@ namespace TransfermarketApp.Services.Core
 				MarketValue = player.MarketValue,
 				ImageUrl = player.ImageUrl,
 				CurrentClubId = player.CurrentClub.ClubId,
+				CurrentClubName = player.CurrentClub?.Name,
+				CurrentClubLogoUrl = player.CurrentClub?.ImageUrl,
 
 				Stats = player.PlayerStats
 					.Select(s => new PlayerStatViewModel
