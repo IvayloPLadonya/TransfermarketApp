@@ -1,17 +1,56 @@
 ﻿@using TransfermarketApp.ViewModels.Players
 @model IEnumerable<PlayerListViewModel>
-
 @{
-    ViewData["Title"] = "Players";
+    var filter = ViewBag.Filter as TransfermarketApp.ViewModels.Players.PlayerFilterViewModel;
     var isAdmin = User.IsInRole("Admin");
 }
 
 <section class="container mt-5">
     <h1 class="mb-4">Players</h1>
 
-    <form method="get" class="input-group mb-4">
-        <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search players..." />
-        <button type="submit" class="btn btn-primary">Search</button>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" name="SearchTerm" value="@filter?.SearchTerm" class="form-control" placeholder="Search players..." />
+        </div>
+
+        <div class="col-md-3">
+            <select name="ClubId" class="form-select">
+                <option value="">All Clubs</option>
+                @foreach (var club in filter?.Clubs ?? new List<ClubDropdownViewModel>())
+                {
+                    <option value="@club.Id" selected="@(filter?.ClubId == club.Id ? "selected" : null)">@club.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="Position" class="form-select">
+                <option value="">All Positions</option>
+                @foreach (var pos in Enum.GetValues(typeof(TransfermarketApp.Data.Models.Enums.Position)))
+                {
+                    var posValue = (int)pos;
+                    <option value="@posValue" selected="@(filter?.Position == (TransfermarketApp.Data.Models.Enums.Position)pos ? "selected" : null)">
+                        @pos
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <input type="number" name="Age" value="@(filter?.Age?.ToString() ?? "")" class="form-control" placeholder="Age" />
+        </div>
+
+        <div class="col-md-2">
+            <select name="SortOrder" class="form-select">
+                <option value="">Sort by Value</option>
+                <option value="value_asc" selected="@(filter?.SortOrder == "value_asc" ? "selected" : null)">Value ↑</option>
+                <option value="value_desc" selected="@(filter?.SortOrder == "value_desc" ? "selected" : null)">Value ↓</option>
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
     </form>
 
     @if (isAdmin)
@@ -51,10 +90,13 @@
                     <td>€@player.MarketValue.ToString("N0")</td>
                     <td>@player.CurrentClubName</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@player.PlayerId" class="btn btn-sm btn-info">Details</a>
                         @if (isAdmin)
                         {
                             <a asp-action="Edit" asp-route-id="@player.PlayerId" class="btn btn-sm btn-warning">Edit</a>
+                        }
+                        <a asp-action="Details" asp-route-id="@player.PlayerId" class="btn btn-sm btn-info">Details</a>
+                        @if (isAdmin)
+                        {
                             <form asp-action="Delete" asp-route-id="@player.PlayerId" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this player?');">Delete</button>
                             </form>

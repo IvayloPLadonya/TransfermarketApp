@@ -153,5 +153,106 @@ namespace TransfermarketApp.Services.Core
 					Name = p.Name
 				}).ToListAsync();
 		}
+		public async Task<List<TransferViewModel>> GetPagedTransfersAsync(
+			TransferFilterViewModel filter,
+			int page,
+			int pageSize,
+			int totalCount)
+		{
+			var query = _dbContext.Transfers
+				.Include(t => t.Player)
+				.Include(t => t.FromClub)
+				.Include(t => t.ToClub)
+				.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(filter.PlayerName))
+				query = query.Where(t => t.Player.Name.Contains(filter.PlayerName));
+
+			if (!string.IsNullOrWhiteSpace(filter.ClubName))
+				query = query.Where(t => t.FromClub.Name.Contains(filter.ClubName) || t.ToClub.Name.Contains(filter.ClubName));
+
+			if (filter.FromDate.HasValue)
+				query = query.Where(t => t.TransferDate >= filter.FromDate.Value);
+
+			if (filter.ToDate.HasValue)
+				query = query.Where(t => t.TransferDate <= filter.ToDate.Value);
+
+			totalCount = await query.CountAsync();
+
+			return await query
+				.OrderByDescending(t => t.TransferDate)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(t => new TransferViewModel
+				{
+					TransferId = t.TransferId,
+					PlayerName = t.Player.Name,
+					FromClubName = t.FromClub.Name,
+					ToClubName = t.ToClub.Name,
+					TransferFee = t.TransferFee,
+					TransferDate = t.TransferDate
+				}).ToListAsync();
+		}
+		public async Task<IEnumerable<TransferViewModel>> GetFilteredTransfersAsync(TransferFilterViewModel filter, int page, int pageSize)
+		{
+			var query = _dbContext.Transfers
+				.Include(t => t.Player)
+				.Include(t => t.FromClub)
+				.Include(t => t.ToClub)
+				.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(filter.PlayerName))
+				query = query.Where(t => t.Player.Name.Contains(filter.PlayerName));
+
+			if (!string.IsNullOrWhiteSpace(filter.ClubName))
+				query = query.Where(t => t.FromClub.Name.Contains(filter.ClubName) || t.ToClub.Name.Contains(filter.ClubName));
+
+			if (filter.FromDate.HasValue)
+				query = query.Where(t => t.TransferDate >= filter.FromDate.Value);
+
+			if (filter.ToDate.HasValue)
+				query = query.Where(t => t.TransferDate <= filter.ToDate.Value);
+
+			query = filter.SortOrder switch
+			{
+				"fee_desc" => query.OrderByDescending(t => t.TransferFee),
+				"fee_asc" => query.OrderBy(t => t.TransferFee),
+				_ => query.OrderByDescending(t => t.TransferDate)
+			};
+
+			return await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(t => new TransferViewModel
+				{
+					TransferId = t.TransferId,
+					PlayerName = t.Player.Name,
+					FromClubName = t.FromClub.Name,
+					ToClubName = t.ToClub.Name,
+					TransferFee = t.TransferFee,
+					TransferDate = t.TransferDate
+				})
+				.ToListAsync();
+		}
+
+		public async Task<int> GetFilteredTransfersCountAsync(TransferFilterViewModel filter)
+		{
+			var query = _dbContext.Transfers.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(filter.PlayerName))
+				query = query.Where(t => t.Player.Name.Contains(filter.PlayerName));
+
+			if (!string.IsNullOrWhiteSpace(filter.ClubName))
+				query = query.Where(t => t.FromClub.Name.Contains(filter.ClubName) || t.ToClub.Name.Contains(filter.ClubName));
+
+			if (filter.FromDate.HasValue)
+				query = query.Where(t => t.TransferDate >= filter.FromDate.Value);
+
+			if (filter.ToDate.HasValue)
+				query = query.Where(t => t.TransferDate <= filter.ToDate.Value);
+
+			return await query.CountAsync();
+		}
+
 	}
 }

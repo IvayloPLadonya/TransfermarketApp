@@ -12,27 +12,29 @@ namespace TransfermarketApp.Controllers
 	public class PlayersController : Controller
 	{
 		private readonly IPlayerService _playerService;
-		private readonly TransfermarketAppDbContext _dbContext;
-		public PlayersController(IPlayerService playerService,TransfermarketAppDbContext dbContext)
+		public PlayersController(IPlayerService playerService)
 		{
 			_playerService = playerService;
-			_dbContext = dbContext;
 		}
 
-		[AllowAnonymous]
-		public async Task<IActionResult> Index(string? searchTerm, int page = 1)
+		public async Task<IActionResult> Index(PlayerFilterViewModel filter, int page = 1)
 		{
 			const int pageSize = 10;
 
-			var players = await _playerService.GetAllPlayersAsync(searchTerm, page, pageSize);
-			var totalPlayers = await _playerService.GetPlayersCountAsync(searchTerm);
+			var players = await _playerService.GetFilteredPlayersAsync(filter, page, pageSize);
+			var totalPlayers = await _playerService.GetFilteredPlayersCountAsync(filter);
 
 			ViewBag.TotalPages = (int)Math.Ceiling(totalPlayers / (double)pageSize);
 			ViewBag.CurrentPage = page;
-			ViewBag.SearchTerm = searchTerm;
+			ViewBag.Filter = filter;
+
+			filter.Clubs = await _playerService.GetClubsAsync();
 
 			return View(players);
 		}
+
+
+
 
 		[AllowAnonymous]
 		public async Task<IActionResult> Details(int id)

@@ -18,5 +18,7 @@ namespace TransfermarketApp.Services.Core.Contracts
 		Task DeletePlayerAsync(int id);
 		Task<int> GetPlayersCountAsync(string? searchTerm = null);
 		Task<List<ClubDropdownViewModel>> GetClubsAsync();
-	}
+		Task<int> GetFilteredPlayersCountAsync(PlayerFilterViewModel filter);
+		Task<IEnumerable<PlayerListViewModel>> GetFilteredPlayersAsync(PlayerFilterViewModel filter, int page, int pageSize);
+		}
 }

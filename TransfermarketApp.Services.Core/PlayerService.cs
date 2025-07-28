@@ -181,6 +181,65 @@ namespace TransfermarketApp.Services.Core
 				})
 				.ToListAsync();
 		}
+		public async Task<IEnumerable<PlayerListViewModel>> GetFilteredPlayersAsync(PlayerFilterViewModel filter, int page, int pageSize)
+		{
+			var query = _dbContext.Players
+				.Include(p => p.CurrentClub)
+				.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
+				query = query.Where(p => p.Name.Contains(filter.SearchTerm));
+
+			if (filter.ClubId.HasValue)
+				query = query.Where(p => p.CurrentClubId == filter.ClubId);
+
+			if (filter.Position.HasValue)
+				query = query.Where(p => p.Position == filter.Position);
+
+			if (filter.Age.HasValue)
+				query = query.Where(p => p.Age == filter.Age);
+
+			query = filter.SortOrder switch
+			{
+				"value_asc" => query.OrderBy(p => p.MarketValue),
+				"value_desc" => query.OrderByDescending(p => p.MarketValue),
+				_ => query.OrderBy(p => p.Name)
+			};
+
+			return await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(p => new PlayerListViewModel
+				{
+					PlayerId = p.PlayerId,
+					Name = p.Name,
+					Position = p.Position.ToString(),
+					Age = p.Age,
+					MarketValue = p.MarketValue,
+					CurrentClubName = p.CurrentClub.Name,
+					ImageUrl = p.ImageUrl
+				})
+				.ToListAsync();
+		}
+
+		public async Task<int> GetFilteredPlayersCountAsync(PlayerFilterViewModel filter)
+		{
+			var query = _dbContext.Players.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
+				query = query.Where(p => p.Name.Contains(filter.SearchTerm));
+
+			if (filter.ClubId.HasValue)
+				query = query.Where(p => p.CurrentClubId == filter.ClubId);
+
+			if (filter.Position.HasValue)
+				query = query.Where(p => p.Position == filter.Position);
+
+			if (filter.Age.HasValue)
+				query = query.Where(p => p.Age == filter.Age);
+
+			return await query.CountAsync();
+		}
 
 
 	}

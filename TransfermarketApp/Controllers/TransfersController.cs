@@ -14,22 +14,20 @@ namespace TransfermarketApp.Controllers
 			_transferService = transferService;
 		}
 
-		[AllowAnonymous]
-		public async Task<IActionResult> Index(string? playerName, string? clubName, DateTime? fromDate, DateTime? toDate)
+		public async Task<IActionResult> Index(TransferFilterViewModel filter, int page = 1)
 		{
-			var filter = new TransferFilterViewModel
-			{
-				PlayerName = playerName,
-				ClubName = clubName,
-				FromDate = fromDate,
-				ToDate = toDate
-			};
+			const int pageSize = 10;
 
-			var transfers = await _transferService.GetAllTransfersAsync(filter);
+			var transfers = await _transferService.GetFilteredTransfersAsync(filter, page, pageSize);
+			var totalCount = await _transferService.GetFilteredTransfersCountAsync(filter);
 
+			ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+			ViewBag.CurrentPage = page;
 			ViewBag.Filter = filter;
+
 			return View(transfers);
 		}
+
 
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create()
