@@ -10,10 +10,10 @@
     <h1 class="mb-4">Transfers</h1>
 
     <form method="get" class="row g-3 mb-4">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" name="playerName" value="@filter?.PlayerName" class="form-control" placeholder="Player name" />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" name="clubName" value="@filter?.ClubName" class="form-control" placeholder="Club name" />
         </div>
         <div class="col-md-2">
@@ -23,6 +23,13 @@
             <input type="date" name="toDate" value="@filter?.ToDate?.ToString("yyyy-MM-dd")" class="form-control" />
         </div>
         <div class="col-md-2">
+            <select name="sortOrder" class="form-select">
+                <option value="">Sort by fee</option>
+                <option value="fee_asc" selected="@(filter?.SortOrder == "fee_asc" ? "selected" : null)">Value ↑</option>
+                <option value="fee_desc" selected="@(filter?.SortOrder == "fee_desc" ? "selected" : null)">Value ↓</option>
+            </select>
+        </div>
+        <div class="col-md-1">
             <button type="submit" class="btn btn-primary w-100">Filter</button>
         </div>
     </form>
@@ -81,8 +88,10 @@
                             <input type="hidden" name="clubName" value="@filter?.ClubName" />
                             <input type="hidden" name="fromDate" value="@filter?.FromDate?.ToString("yyyy-MM-dd")" />
                             <input type="hidden" name="toDate" value="@filter?.ToDate?.ToString("yyyy-MM-dd")" />
+                            <input type="hidden" name="sortOrder" value="@filter?.SortOrder" />
                             <button type="submit" class="page-link">@i</button>
                         </form>
+
                     </li>
                 }
             </ul>

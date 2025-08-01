@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.Services.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarketApp.ViewModels", "TransfermarketApp.ViewModels\TransfermarketApp.ViewModels.csproj", "{5E1E2C12-96E8-47F5-9292-6899A49FF324}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3C32F18C-FCFD-4577-97AE-4454D86D1A10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
