@@ -14,6 +14,8 @@ namespace TransfermarketApp.ViewModels.Transfers
 		public string ToClubName { get; set; } = null!;
 		public decimal TransferFee { get; set; }
 		public DateTime TransferDate { get; set; }
+		public string? PlayerImageUrl { get; set; }
+
 	}
 
 }

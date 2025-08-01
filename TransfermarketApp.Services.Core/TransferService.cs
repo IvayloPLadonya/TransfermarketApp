@@ -49,7 +49,8 @@ namespace TransfermarketApp.Services.Core
 					FromClubName = t.FromClub.Name,
 					ToClubName = t.ToClub.Name,
 					TransferFee = t.TransferFee,
-					TransferDate = t.TransferDate
+					TransferDate = t.TransferDate,
+					PlayerImageUrl = t.Player.ImageUrl
 				}).ToListAsync();
 		}
 
@@ -187,6 +188,7 @@ namespace TransfermarketApp.Services.Core
 				{
 					TransferId = t.TransferId,
 					PlayerName = t.Player.Name,
+					PlayerImageUrl = t.Player.ImageUrl,
 					FromClubName = t.FromClub.Name,
 					ToClubName = t.ToClub.Name,
 					TransferFee = t.TransferFee,
@@ -227,11 +229,13 @@ namespace TransfermarketApp.Services.Core
 				{
 					TransferId = t.TransferId,
 					PlayerName = t.Player.Name,
+					PlayerImageUrl = t.Player.ImageUrl, 
 					FromClubName = t.FromClub.Name,
 					ToClubName = t.ToClub.Name,
 					TransferFee = t.TransferFee,
 					TransferDate = t.TransferDate
 				})
+
 				.ToListAsync();
 		}
 

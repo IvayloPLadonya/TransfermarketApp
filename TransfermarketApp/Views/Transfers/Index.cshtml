@@ -42,35 +42,47 @@
     <table class="table table-striped table-dark">
         <thead>
             <tr>
+                <th>Image</th>
                 <th>Player</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Fee</th>
                 <th>Date</th>
                 @if (isAdmin)
-                    {
-                <th>Actions</th>
-                    }
+                {
+                    <th>Actions</th>
+                }
             </tr>
         </thead>
+
         <tbody>
             @foreach (var transfer in Model)
             {
                 <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(transfer.PlayerImageUrl))
+                        {
+                            <img src="@transfer.PlayerImageUrl" alt="@transfer.PlayerName" width="50" height="50" class="img-thumbnail" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Image</span>
+                        }
+                    </td>
                     <td>@transfer.PlayerName</td>
                     <td>@transfer.FromClubName</td>
                     <td>@transfer.ToClubName</td>
                     <td>€@transfer.TransferFee.ToString("N0")</td>
                     <td>@transfer.TransferDate.ToShortDateString()</td>
-                    <td>
-                        @if (isAdmin)
-                        {
+                    @if (isAdmin)
+                    {
+                        <td>
                             <a asp-action="Edit" asp-route-id="@transfer.TransferId" class="btn btn-sm btn-warning">Edit</a>
                             <form asp-action="Delete" asp-route-id="@transfer.TransferId" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this transfer?');">Delete</button>
                             </form>
-                        }
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
