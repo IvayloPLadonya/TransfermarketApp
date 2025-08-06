@@ -74,8 +74,10 @@
                                     <a asp-controller="PlayerStat" asp-action="Edit" asp-route-id="@stat.StatId" class="btn btn-sm btn-primary me-1">Edit</a>
                                     <form asp-controller="PlayerStat" asp-action="Delete" asp-route-id="@stat.StatId" method="post" class="d-inline"
                                           onsubmit="return confirm('Are you sure you want to delete this stat?');">
+                                        <input type="hidden" name="playerId" value="@Model.PlayerId" />
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
+
                                 </td>
                             }
                         </tr>

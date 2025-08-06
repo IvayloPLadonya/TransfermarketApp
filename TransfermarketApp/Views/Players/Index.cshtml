@@ -112,9 +112,17 @@
             @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
             {
                 <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchTerm="@ViewBag.SearchTerm">@i</a>
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-SearchTerm="@filter?.SearchTerm"
+                       asp-route-ClubId="@filter?.ClubId"
+                       asp-route-Position="@((int?)filter?.Position)"
+                       asp-route-Age="@filter?.Age"
+                       asp-route-SortOrder="@filter?.SortOrder">@i</a>
                 </li>
             }
         </ul>
     </nav>
+
 </section>

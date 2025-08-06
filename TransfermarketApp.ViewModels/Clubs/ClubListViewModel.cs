@@ -19,5 +19,6 @@ namespace TransfermarketApp.ViewModels.Clubs
 		public string? ImageUrl { get; set; }
 
 		public string LeagueName { get; set; } = null!;
+		public int LeagueId { get; set; }
 	}
 }

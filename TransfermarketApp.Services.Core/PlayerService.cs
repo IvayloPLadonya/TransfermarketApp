@@ -73,7 +73,7 @@ namespace TransfermarketApp.Services.Core
 				Age = player.Age,
 				MarketValue = player.MarketValue,
 				ImageUrl = player.ImageUrl,
-				CurrentClubId = player.CurrentClub.ClubId,
+				CurrentClubId = player.CurrentClub?.ClubId,
 				CurrentClubName = player.CurrentClub?.Name,
 				CurrentClubLogoUrl = player.CurrentClub?.ImageUrl,
 

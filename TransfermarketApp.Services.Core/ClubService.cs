@@ -28,7 +28,8 @@ namespace TransfermarketApp.Services.Core
 					FoundedYear = c.FoundedYear,
 					Budget = c.Budget,
 					ImageUrl = c.ImageUrl,
-					LeagueName = c.League.Name
+					LeagueName = c.League.Name,
+					LeagueId = c.League.LeagueId
 				})
 				.ToListAsync();
 		}
@@ -164,6 +165,56 @@ namespace TransfermarketApp.Services.Core
 				})
 				.ToListAsync();
 		}
+		public async Task<IEnumerable<ClubListViewModel>> GetFilteredClubsAsync(string? searchTerm, int? leagueId, int page, int pageSize)
+		{
+			var query = _dbContext.Clubs
+				.Include(c => c.League)
+				.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				query = query.Where(c => c.Name.Contains(searchTerm));
+			}
+
+			if (leagueId.HasValue)
+			{
+				query = query.Where(c => c.LeagueId == leagueId);
+			}
+
+			return await query
+				.OrderBy(c => c.Name)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.Select(c => new ClubListViewModel
+				{
+					ClubId = c.ClubId,
+					Name = c.Name,
+					FoundedYear = c.FoundedYear,
+					Budget = c.Budget,
+					ImageUrl = c.ImageUrl,
+					LeagueName = c.League.Name,
+					LeagueId = c.LeagueId
+				})
+				.ToListAsync();
+		}
+
+		public async Task<int> GetFilteredClubsCountAsync(string? searchTerm, int? leagueId)
+		{
+			var query = _dbContext.Clubs.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				query = query.Where(c => c.Name.Contains(searchTerm));
+			}
+
+			if (leagueId.HasValue)
+			{
+				query = query.Where(c => c.LeagueId == leagueId);
+			}
+
+			return await query.CountAsync();
+		}
+
 
 	}
 }

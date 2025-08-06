@@ -15,7 +15,7 @@
         <div class="ms-4">
             <h1>@Model.Name</h1>
             <p><strong>Founded:</strong> @Model.FoundedYear</p>
-            <p><strong>Budget:</strong> $@Model.Budget.ToString("N0")</p>
+            <p><strong>Budget:</strong> €@Model.Budget.ToString("N0")</p>
             <p><strong>League:</strong> @Model.LeagueName</p>
         </div>
     </div>
@@ -47,7 +47,7 @@
                             <p class="mb-0">
                                 <strong>Position:</strong> @player.Position |
                                 <strong>Age:</strong> @player.Age |
-                                <strong>Market Value:</strong> $@player.MarketValue.ToString("N0")
+                                <strong>Market Value:</strong> €@player.MarketValue.ToString("N0")
                             </p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                     <tr>
                         <td>@transfer.PlayerName</td>
                         <td>@transfer.FromClubName</td>
-                        <td>$@transfer.Fee</td>
+                        <td>€@transfer.Fee.ToString("N0")</td>
                         <td>@transfer.TransferDate.ToShortDateString()</td>
                     </tr>
                 }
@@ -107,7 +107,7 @@
                     <tr>
                         <td>@transfer.PlayerName</td>
                         <td>@transfer.ToClubName</td>
-                        <td>$@transfer.Fee</td>
+                        <td>€@transfer.Fee.ToString("N0")</td>
                         <td>@transfer.TransferDate.ToShortDateString()</td>
                     </tr>
                 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TransfermarketApp.Data.Models;
 using TransfermarketApp.Services.Core.Contracts;
 using TransfermarketApp.ViewModels.Clubs;
 
@@ -14,33 +15,26 @@ namespace TransfermarketApp.Controllers
 			_clubService = clubService;
 		}
 
-		public async Task<IActionResult> Index(string searchTerm, int page = 1)
+		public async Task<IActionResult> Index(string? searchTerm, int? leagueId, int page = 1)
 		{
 			const int pageSize = 10;
 
-			var allClubs = await _clubService.GetAllClubsAsync();
+			var clubs = await _clubService.GetFilteredClubsAsync(searchTerm, leagueId, page, pageSize);
+			var totalCount = await _clubService.GetFilteredClubsCountAsync(searchTerm, leagueId);
 
-			if (!string.IsNullOrWhiteSpace(searchTerm))
-			{
-				allClubs = allClubs
-					.Where(c => c.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-					.ToList();
-			}
-
-			var totalItems = allClubs.Count();
-			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-			var paginatedClubs = allClubs
-				.Skip((page - 1) * pageSize)
-				.Take(pageSize)
-				.ToList();
+			var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
 			ViewBag.TotalPages = totalPages;
 			ViewBag.CurrentPage = page;
 			ViewBag.SearchTerm = searchTerm;
+			ViewBag.LeagueId = leagueId;
 
-			return View(paginatedClubs);
+			var leagues = await _clubService.GetLeaguesAsync();
+			ViewBag.Leagues = leagues;
+
+			return View(clubs);
 		}
+
 
 		[AllowAnonymous]
 		public async Task<IActionResult> Details(int id)

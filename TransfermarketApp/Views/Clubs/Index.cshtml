@@ -9,10 +9,29 @@
 <section class="container mt-5">
     <h1 class="mb-4">Clubs</h1>
 
-    <form method="get" class="input-group mb-4">
+   <form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
         <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search clubs..." />
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    </div>
+
+    <div class="col-md-4">
+            <select name="LeagueId" class="form-select">
+                <option value="">All Leagues</option>
+                @foreach (var league in ViewBag.Leagues as List<LeagueDropdownViewModel> ?? new List<LeagueDropdownViewModel>())
+                {
+                    <option value="@league.Id" selected="@(ViewBag.LeagueId != null && (int)ViewBag.LeagueId == league.Id ? "selected" : null)">
+                        @league.Name
+                    </option>
+                }
+            </select>
+
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
+
 
     @if (isAdmin)
     {
@@ -73,11 +92,13 @@
                         <a class="page-link"
                            asp-action="Index"
                            asp-route-page="@i"
-                           asp-route-searchTerm="@ViewBag.SearchTerm">@i</a>
+                           asp-route-searchTerm="@ViewBag.SearchTerm"
+                           asp-route-leagueId="@ViewBag.LeagueId">@i</a>
                     </li>
                 }
             </ul>
         </nav>
     }
+
 
 </section>
