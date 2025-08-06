@@ -22,7 +22,7 @@ namespace TransfermarketApp.Tests
 
 			var context = new TransfermarketAppDbContext(options);
 
-			var league = new League
+			var premierLeague = new League
 			{
 				LeagueId = 1,
 				Name = "Premier League",
@@ -30,15 +30,25 @@ namespace TransfermarketApp.Tests
 				Level = "First Division"
 			};
 
-			var club = new Club
+			var laLiga = new League
+			{
+				LeagueId = 2,
+				Name = "La Liga",
+				Country = "Spain",
+				Level = "First Division"
+			};
+
+			context.Leagues.AddRange(premierLeague, laLiga);
+
+			var arsenal = new Club
 			{
 				ClubId = 1,
 				Name = "Arsenal",
 				FoundedYear = 1886,
 				Budget = 100_000_000,
 				ImageUrl = "arsenal.png",
-				LeagueId = league.LeagueId,
-				League = league,
+				LeagueId = premierLeague.LeagueId,
+				League = premierLeague,
 				Players = new List<Player>
 		{
 			new Player
@@ -49,16 +59,38 @@ namespace TransfermarketApp.Tests
 				MarketValue = 90000000,
 				ImageUrl = "saka.png",
 				Position = Position.RW
-            }
+			}
 		}
 			};
 
-			context.Leagues.Add(league);
-			context.Clubs.Add(club);
+			var realMadrid = new Club
+			{
+				ClubId = 2,
+				Name = "Real Madrid",
+				FoundedYear = 1902,
+				Budget = 700000000,
+				ImageUrl = "realmadrid.png",
+				LeagueId = laLiga.LeagueId,
+				League = laLiga
+			};
+
+			var manchesterUnited = new Club
+			{
+				ClubId = 3,
+				Name = "Manchester United",
+				FoundedYear = 1878,
+				Budget = 650000000,
+				ImageUrl = "manutd.png",
+				LeagueId = premierLeague.LeagueId,
+				League = premierLeague
+			};
+
+			context.Clubs.AddRange(arsenal, realMadrid, manchesterUnited);
 			context.SaveChanges();
 
 			return context;
 		}
+
 
 
 		[Fact]
@@ -69,8 +101,8 @@ namespace TransfermarketApp.Tests
 
 			var result = await service.GetAllClubsAsync();
 
-			Assert.Single(result);
-			Assert.Equal("Arsenal", result.First().Name);
+			Assert.Equal(3, result.Count());
+			Assert.Contains(result, c => c.Name == "Arsenal");
 		}
 
 		[Fact]
@@ -115,7 +147,7 @@ namespace TransfermarketApp.Tests
 			await service.CreateClubAsync(model);
 
 			var clubs = await context.Clubs.ToListAsync();
-			Assert.Equal(2, clubs.Count);
+			Assert.Equal(4, clubs.Count);
 			Assert.Contains(clubs, c => c.Name == "Chelsea");
 		}
 
@@ -205,7 +237,7 @@ namespace TransfermarketApp.Tests
 			await service.DeleteClubAsync(999);
 
 			var count = await context.Clubs.CountAsync();
-			Assert.Equal(1, count);
+			Assert.Equal(3, count);
 		}
 
 		[Fact]
@@ -216,8 +248,34 @@ namespace TransfermarketApp.Tests
 
 			var result = await service.GetLeaguesAsync();
 
-			Assert.Single(result);
-			Assert.Equal("Premier League", result.First().Name);
+			Assert.Equal(2, result.Count());
+			Assert.Contains(result, l => l.Name == "Premier League");
+			Assert.Contains(result, l => l.Name == "La Liga");
+		}
+		[Fact]
+		public async Task GetFilteredClubsAsync_ReturnsFilteredResults()
+		{
+			var context = GetDbContext();
+			var service = new ClubService(context);
+
+			var clubs = await service.GetFilteredClubsAsync(searchTerm: "Real", leagueId: 2, page: 1, pageSize: 10);
+
+			var clubList = clubs.ToList();
+
+			Assert.Single(clubList);
+			Assert.Equal("Real Madrid", clubList[0].Name);
+			Assert.Equal(2, clubList[0].LeagueId);
+		}
+
+		[Fact]
+		public async Task GetFilteredClubsCountAsync_WithFilters_ReturnsCorrectCount()
+		{
+			var context = GetDbContext();
+			var service = new ClubService(context);
+
+			var count = await service.GetFilteredClubsCountAsync(searchTerm: "Manchester", leagueId: 1);
+
+			Assert.Equal(1, count);
 		}
 	}
 }
