@@ -22,7 +22,7 @@
 		[Url]
 		public string? ImageUrl { get; set; }
 
-		public int CurrentClubId { get; set; }
+		public int? CurrentClubId { get; set; }
 		public Club CurrentClub { get; set; } = null!;
 
 		public ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();

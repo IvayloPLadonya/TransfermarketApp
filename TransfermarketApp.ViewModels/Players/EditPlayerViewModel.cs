@@ -28,7 +28,7 @@ namespace TransfermarketApp.ViewModels.Players
 		public string? ImageUrl { get; set; }
 
 		[Required]
-		public int CurrentClubId { get; set; }
+		public int? CurrentClubId { get; set; }
 
 		public List<ClubDropdownViewModel> Clubs { get; set; } = new();
 	}

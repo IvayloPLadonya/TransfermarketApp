@@ -137,13 +137,22 @@ namespace TransfermarketApp.Services.Core
 
 		public async Task DeleteClubAsync(int id)
 		{
-			var club = await _dbContext.Clubs.FindAsync(id);
+			var club = await _dbContext.Clubs
+				.Include(c => c.Players)
+				.FirstOrDefaultAsync(c => c.ClubId == id);
+
 			if (club != null)
 			{
+				foreach (var player in club.Players)
+				{
+					player.CurrentClubId = null;
+				}
 				_dbContext.Clubs.Remove(club);
+
 				await _dbContext.SaveChangesAsync();
 			}
 		}
+
 		public async Task<List<LeagueDropdownViewModel>> GetLeaguesAsync()
 		{
 			return await _dbContext.Leagues

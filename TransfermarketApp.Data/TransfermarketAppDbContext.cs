@@ -32,7 +32,8 @@ namespace TransfermarketApp.Data
 				.HasOne(p => p.CurrentClub)
 				.WithMany(c => c.Players)
 				.HasForeignKey(p => p.CurrentClubId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.SetNull);
+
 
 			modelBuilder.Entity<Club>()
 				.HasOne(c => c.League)
